@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "ketobap",
+    "slug": "ketobap",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/logo3.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/logo3.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F9FEE8"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logo3.png",
+        "backgroundColor": "#F9FEE8"
+      },
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "favicon": "./assets/images/logo3.png"
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
