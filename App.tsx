@@ -58,7 +58,7 @@ export default function App() {
             else if (route.name === 'Home') iconName = 'home';
             else if (route.name === 'Restaurant') iconName = 'utensils';
             else if (route.name === 'Mypage') iconName = 'user';
-
+            
             return <FontAwesome5 name={iconName} size={focused ? 25 : 20} color={color} solid />;
           },
           tabBarActiveTintColor: '#2563EB',

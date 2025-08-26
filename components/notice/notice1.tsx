@@ -158,11 +158,11 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         marginBottom: 16,
         borderWidth: 1,
-        borderColor: '#E5E7EB',
+        borderColor: '#CCC',
     },
     main_minititle: {
         color: '#374151',
-        fontFamily: 'Pretendard-Light',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 14,
     },
     main_maintitle: {

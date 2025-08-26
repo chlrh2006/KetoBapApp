@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     },
     chip: {
         backgroundColor: '#F3F4F6',
-        borderColor: '#E5E7EB',
+        borderColor: '#CCC',
         borderWidth: 1,
         paddingVertical: 6,
         paddingHorizontal: 10,

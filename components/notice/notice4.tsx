@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         opacity: 0.3,
-        zIndex: 1,
+        zIndex: -1,
         transform: [{ rotate: '-10deg' }],
     },
     rightIcon: {
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         opacity: 0.3,
-        zIndex: 1,
+        zIndex: -1,
         transform: [{ rotate: '10deg' }],
     },
     maintitle: {

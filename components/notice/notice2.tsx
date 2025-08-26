@@ -15,7 +15,7 @@ export default function Notice2({ currentPage }: Notice2Props) {
     const elementsAnim = useRef(new Animated.Value(0)).current;
     const elementsSlideAnim = useRef(new Animated.Value(-100)).current;
     const [isVisible, setIsVisible] = useState(false);
-
+    
     // currentPage가 1(notice2)일 때 애니메이션 시작
     useEffect(() => {
         if (currentPage === 1) {
