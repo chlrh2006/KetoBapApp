@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-SemiBold',
         color: '#6B7280',
         textAlign: 'center',
-        marginBottom: 26,
+        marginBottom: 16,
         lineHeight: 22,
     },
     filtersRow: {
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     },
     cardTitle: {
         fontSize: 20,
-        fontFamily: 'Pretendard-SemiBold',
+        fontFamily: 'Pretendard-Bold',
         color: '#111827',
     },
     scorePill: {
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: '#374151',
         fontFamily: 'Pretendard-SemiBold',
-        marginBottom: 10,
+        marginBottom: 8,
     },
     infoRow: {
         flexDirection: 'row',
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#6B7280',
         fontFamily: 'Pretendard-SemiBold',
-        width: 80,
+        width: 50,
     },
     infoValue: {
         fontSize: 14,
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     },
     primaryButton: {
         backgroundColor: '#2563EB',
-        borderRadius: 14,
+        borderRadius: 8,
         borderColor: '#2563EB',
         borderWidth: 1,
         paddingVertical: 14,

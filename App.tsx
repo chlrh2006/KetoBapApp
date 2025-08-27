@@ -151,5 +151,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F7F8FA',
     zIndex: 0,
     elevation: 0,
+    paddingTop: 35,
   },
 });

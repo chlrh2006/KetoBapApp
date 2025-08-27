@@ -48,24 +48,29 @@ const styles = StyleSheet.create({
         padding: 16,
         borderWidth: 1,
         borderColor: '#E5E7EB',
+        shadowColor: '#000',
+        shadowOpacity: 0.08,
+        shadowOffset: { width: 0, height: 3 },
+        shadowRadius: 10,
+        elevation: 3,
     },
     confirmTitle: {
-        fontSize: 18,
+        fontSize: 20,
         color: '#111827',
         fontFamily: 'Pretendard-Bold',
         marginBottom: 8,
-        textAlign: 'center',
+        textAlign: 'left',
     },
     confirmText: {
         fontSize: 14,
         color: '#6B7280',
-        textAlign: 'center',
+        textAlign: 'left',
     },
     confirmRow: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
         gap: 10,
-        marginTop: 14,
+        marginTop: 16,
     },
     confirmBtn: {
         paddingVertical: 10,
@@ -80,14 +85,21 @@ const styles = StyleSheet.create({
     confirmConfirm: {
         backgroundColor: '#2563EB',
         borderColor: '#2563EB',
+        shadowColor: '#000',
+        shadowOpacity: 0.06,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 8,
+        elevation: 2,
     },
     confirmCancelText: {
         color: '#374151',
         fontFamily: 'Pretendard-SemiBold',
+        fontSize: 14,
     },
     confirmConfirmText: {
         color: '#FFFFFF',
         fontFamily: 'Pretendard-Bold',
+        fontSize: 14,
     },
 });
 

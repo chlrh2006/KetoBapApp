@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import RecipeModal from './modal/recipe';
+import NewRecommend from './modal/new_recommend';
 
 export default function Keto() {
     const macros = { carb: 5, protein: 15, fat: 80 };
     const [isRecipeVisible, setIsRecipeVisible] = useState(false);
+    const [isNewRecommendVisible, setIsNewRecommendVisible] = useState(false);
+    const navigation = useNavigation<any>();
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
@@ -68,8 +72,10 @@ export default function Keto() {
                         </View>
                         <Text style={styles.mealTitle}>아보카도와 올리브오일 샐러드</Text>
                         <View style={styles.mealMetaRow}>
-                            <Text style={styles.mealMeta}>326 칼로리</Text>
-                            <Text style={styles.mealLink} onPress={() => setIsRecipeVisible(true)}>자세히 보기</Text>
+                            <Text style={styles.mealMeta}>326 kcal</Text>
+                            <TouchableOpacity hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} onPress={() => setIsRecipeVisible(true)}>
+                                <Text style={styles.mealLink}>자세히 보기</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
 
@@ -80,8 +86,10 @@ export default function Keto() {
                         </View>
                         <Text style={styles.mealTitle}>연어와 아보카도 롤</Text>
                         <View style={styles.mealMetaRow}>
-                            <Text style={styles.mealMeta}>325 칼로리</Text>
-                            <Text style={styles.mealLink} onPress={() => setIsRecipeVisible(true)}>자세히 보기</Text>
+                            <Text style={styles.mealMeta}>325 kcal</Text>
+                            <TouchableOpacity hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} onPress={() => setIsRecipeVisible(true)}>
+                                <Text style={styles.mealLink}>자세히 보기</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
 
@@ -92,14 +100,16 @@ export default function Keto() {
                         </View>
                         <Text style={styles.mealTitle}>고기 없는 아보카도 스테이크</Text>
                         <View style={styles.mealMetaRow}>
-                            <Text style={styles.mealMeta}>296 칼로리</Text>
-                            <Text style={styles.mealLink} onPress={() => setIsRecipeVisible(true)}>자세히 보기</Text>
+                            <Text style={styles.mealMeta}>296 kcal</Text>
+                            <TouchableOpacity hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} onPress={() => setIsRecipeVisible(true)}>
+                                <Text style={styles.mealLink}>자세히 보기</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
 
                 <View style={styles.actions}>
-                    <TouchableOpacity style={styles.primaryButton}>
+                    <TouchableOpacity style={styles.primaryButton} onPress={() => setIsNewRecommendVisible(true)}>
                         <Text style={styles.primaryButtonText}>새로운 추천 받기 {'>'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.secondaryButton}>
@@ -110,6 +120,15 @@ export default function Keto() {
                 <Text style={styles.helperText}>식단 유지가 어려우실 경우 강남 지역 내에 위치한 음식점에서 대안을 찾을 수 있습니다</Text>
             </View>
             <RecipeModal visible={isRecipeVisible} onClose={() => setIsRecipeVisible(false)} />
+            <NewRecommend
+                visible={isNewRecommendVisible}
+                onContinue={() => setIsNewRecommendVisible(false)}
+                onChangePreferences={() => {
+                    setIsNewRecommendVisible(false);
+                    navigation.navigate('Favorites');
+                }}
+                onCancel={() => setIsNewRecommendVisible(false)}
+            />
         </View>
         </ScrollView>
     )
@@ -267,7 +286,7 @@ const styles = StyleSheet.create({
     },
     mealLabel: {
         fontSize: 16,
-        fontFamily: 'Pretendard-SemiBold',
+        fontFamily: 'Pretendard-Bold',
         color: '#111827',
     },
     scorePill: {
