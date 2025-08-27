@@ -11,6 +11,7 @@ export default function Restaurant() {
         phone: string;
     };
 
+    // 더미 데이터 20개 생성이라 length 20
     const restaurants: RestaurantItem[] = Array.from({ length: 20 }, (_, index) => ({
         id: `restaurant-${index}`,
         name: '남도예찬',

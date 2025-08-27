@@ -1,7 +1,7 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator, BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
 import Like from "./components/like";
@@ -28,7 +28,25 @@ function MypageScreen() {
 }
 
 const Tab = createBottomTabNavigator();
-const RootNavigationContainer = NavigationContainer as unknown as React.ComponentType<{ children: React.ReactNode }>; 
+const RootNavigationContainer = NavigationContainer as unknown as React.ComponentType<{ children: React.ReactNode }>;
+
+const TabBarButton = ({ onPress, onLongPress, accessibilityState, accessibilityRole, testID, children, style }: BottomTabBarButtonProps) => {
+  const computedStyle = typeof (style as any) === 'function' ? (style as any)({ pressed: false }) : style;
+  return (
+    <Pressable
+      onPress={onPress}
+      onLongPress={onLongPress}
+      accessibilityRole={accessibilityRole}
+      accessibilityState={accessibilityState}
+      testID={testID}
+      style={[computedStyle as any]}
+      hitSlop={8}
+      pressRetentionOffset={8}
+    >
+      {children}
+    </Pressable>
+  );
+};
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -51,6 +69,7 @@ export default function App() {
         initialRouteName="Home"
         screenOptions={({ route }) => ({
           headerShown: false,
+          tabBarButton: (props) => <TabBarButton {...props} />,
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
             if (route.name === 'Favorites') iconName = 'heart';
@@ -58,13 +77,13 @@ export default function App() {
             else if (route.name === 'Home') iconName = 'home';
             else if (route.name === 'Restaurant') iconName = 'utensils';
             else if (route.name === 'Mypage') iconName = 'user';
-            
+
             return <FontAwesome5 name={iconName} size={focused ? 25 : 20} color={color} solid />;
           },
           tabBarActiveTintColor: '#2563EB',
           tabBarInactiveTintColor: '#9CA3AF',
           tabBarStyle: {
-            height: 90,
+            height: 100,
             backgroundColor: '#FFFFFF',
             borderTopColor: '#E5E7EB',
             borderTopWidth: 1,
@@ -72,6 +91,9 @@ export default function App() {
           tabBarLabelStyle: { display: 'none' },
           tabBarPressColor: 'transparent',
           tabBarPressOpacity: 1,
+          tabBarItemStyle: {
+            paddingBottom: 10,
+          },
         })}
       >
 
@@ -92,5 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F7F8FA',
+    zIndex: 0,
+    elevation: 0,
   },
 });

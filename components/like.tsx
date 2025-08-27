@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Recommend from './modal/recommend';
+import ConfirmModal from './modal/confirm';
 
 // 선택된 음식 값에 이모지 라벨을 매핑
 const FOOD_LABELS: Record<string, string> = {
@@ -33,6 +34,8 @@ export default function Like() {
     const [preferredFoods, setPreferredFoods] = useState<string[]>([]);
     const [dislikedFoods, setDislikedFoods] = useState<string[]>([]);
     const [allergyFoods, setAllergyFoods] = useState<string[]>([]);
+    const [isConfirmVisible, setIsConfirmVisible] = useState(false);
+    const hasAnySelection = (preferredFoods.length + dislikedFoods.length + allergyFoods.length) > 0;
 
     return (
         <View style={styles.screen}>
@@ -109,9 +112,16 @@ export default function Like() {
                 </View>
             </View>
 
-            <View style={styles.button}>
-                <Text style={styles.buttontext}>GPT 식단 추천 받기 {'>'}</Text>
-            </View>
+            <TouchableOpacity
+                style={[styles.secondaryButton, !hasAnySelection && styles.secondaryButtonDisabled]}
+                onPress={() => setIsConfirmVisible(true)}
+                disabled={!hasAnySelection}
+            >
+                <Text style={[styles.secondaryButtonText, !hasAnySelection && styles.secondaryButtonTextDisabled]}>선택 초기화 하기 {'>'}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.primaryButton}>
+                <Text style={styles.primaryButtonText}>GPT 식단 추천 받기 {'>'}</Text>
+            </TouchableOpacity>
 
             <Text style={styles.infoText}>설정은 언제든지 변경할 수 있습니다</Text>
 
@@ -129,11 +139,26 @@ export default function Like() {
                     activeCategory === 'allergy' ? '알레르기 음식을 선택해주세요' : undefined
                 }
                 category={activeCategory || undefined}
+                blockedValues={
+                    activeCategory === 'disliked' ? preferredFoods :
+                    activeCategory === 'preferred' ? dislikedFoods :
+                    undefined
+                }
                 onSave={(foods) => {
                     if (activeCategory === 'preferred') setPreferredFoods(foods);
                     if (activeCategory === 'disliked') setDislikedFoods(foods);
                     if (activeCategory === 'allergy') setAllergyFoods(foods);
                 }}
+            />
+
+            <ConfirmModal
+                visible={isConfirmVisible}
+                title="선택을 초기화할까요?"
+                message="선호/비선호/알레르기 선택이 모두 지워집니다."
+                cancelText="취소"
+                confirmText="초기화"
+                onCancel={() => setIsConfirmVisible(false)}
+                onConfirm={() => { setPreferredFoods([]); setDislikedFoods([]); setAllergyFoods([]); setIsConfirmVisible(false); }}
             />
         </View>
     )
@@ -249,7 +274,7 @@ const styles = StyleSheet.create({
         marginTop: 8,
         fontFamily: 'Pretendard-SemiBold',
     },
-    button: {
+    primaryButton: {
         backgroundColor: '#2563EB',
         borderRadius: 14,
         paddingVertical: 16,
@@ -260,13 +285,38 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 3 },
         shadowRadius: 8,
         elevation: 2,
+        marginTop: 10,
     },
-    buttontext: {
+    primaryButtonText: {
         fontSize: 18,
         textAlign: 'center',
         color: '#FFFFFF',
         fontFamily: 'Pretendard-Bold',
         letterSpacing: 0.2,
+    },
+    secondaryButton: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 14,
+        borderColor: '#E5E7EB',
+        borderWidth: 1,
+        paddingVertical: 16,
+        paddingHorizontal: 20,
+        alignSelf: 'stretch',
+    },
+    secondaryButtonDisabled: {
+        backgroundColor: '#F9FAFB',
+        borderColor: '#E5E7EB',
+        opacity: 0.6,
+    },
+    secondaryButtonText: {
+        fontSize: 18,
+        textAlign: 'center',
+        color: '#374151',
+        fontFamily: 'Pretendard-SemiBold',
+        letterSpacing: 0.2,
+    },
+    secondaryButtonTextDisabled: {
+        color: '#9CA3AF',
     },
     infoText: {
         fontSize: 16,

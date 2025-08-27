@@ -8,6 +8,7 @@ interface RecommendProps {
     onSave: (foods: string[]) => void;
     title?: string;
     category?: 'preferred' | 'disliked' | 'allergy';
+    blockedValues?: string[];
 }
 
 const FOOD_OPTIONS = [
@@ -41,10 +42,11 @@ const ALLERGY_OPTIONS = [
     { value: '기타', label: '➕ 기타 (직접 입력)' },
 ]
 
-export default function Recommend({ visible, onClose, initialSelected, onSave, title, category }: RecommendProps) {
+export default function Recommend({ visible, onClose, initialSelected, onSave, title, category, blockedValues }: RecommendProps) {
     const [selectedFoods, setSelectedFoods] = useState<string[]>(initialSelected || []);
     const [showCustomInput, setShowCustomInput] = useState(false);
     const [customText, setCustomText] = useState('');
+    const hasAnySelection = selectedFoods.length > 0;
 
     useEffect(() => {
         if (visible) {
@@ -53,8 +55,8 @@ export default function Recommend({ visible, onClose, initialSelected, onSave, t
     }, [visible, initialSelected]);
 
     return (
-        <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-            <Pressable style={styles.modalBackground} onPress={onClose}>
+        <Modal visible={visible} transparent animationType="fade" onRequestClose={() => {}}>
+            <View style={styles.modalBackground}>
                 <View style={styles.modalContent}>
                     <Text style={styles.modalTitle}>{title}</Text>
                     <ScrollView style={styles.modalScroll} contentContainerStyle={styles.modalScrollContent}>
@@ -75,28 +77,33 @@ export default function Recommend({ visible, onClose, initialSelected, onSave, t
                             )}
                         </View>
                         <View style={styles.modalContentList}>
-                            {(category === 'allergy' ? ALLERGY_OPTIONS : FOOD_OPTIONS).map((option) => (
-                                <Pressable
-                                    style={[
-                                        styles.modalContentListElement,
-                                        selectedFoods.includes(option.value) && styles.modalContentListElementSelected
-                                    ]}
-                                    key={option.value}
-                                    onPress={() => {
-                                        if (option.value === '기타') {
-                                            setShowCustomInput(true);
-                                            return;
-                                        }
-                                        if (selectedFoods.includes(option.value)) {
-                                            setSelectedFoods(selectedFoods.filter((food) => food !== option.value));
-                                        } else {
-                                            setSelectedFoods([...selectedFoods, option.value]);
-                                        }
-                                    }}
-                                >
-                                    <Text style={styles.optionLabel}>{option.label}</Text>
-                                </Pressable>
-                            ))}
+                            {(category === 'allergy' ? ALLERGY_OPTIONS : FOOD_OPTIONS).map((option) => {
+                                const isBlocked = !!blockedValues && blockedValues.includes(option.value) && option.value !== '기타';
+                                return (
+                                    <Pressable
+                                        style={[
+                                            styles.modalContentListElement,
+                                            selectedFoods.includes(option.value) && styles.modalContentListElementSelected,
+                                            isBlocked && styles.modalContentListElementDisabled,
+                                        ]}
+                                        key={option.value}
+                                        disabled={isBlocked}
+                                        onPress={() => {
+                                            if (option.value === '기타') {
+                                                setShowCustomInput(true);
+                                                return;
+                                            }
+                                            if (selectedFoods.includes(option.value)) {
+                                                setSelectedFoods(selectedFoods.filter((food) => food !== option.value));
+                                            } else {
+                                                setSelectedFoods([...selectedFoods, option.value]);
+                                            }
+                                        }}
+                                    >
+                                        <Text style={[styles.optionLabel, isBlocked && styles.optionLabelDisabled]}>{option.label}</Text>
+                                    </Pressable>
+                                );
+                            })}
                         </View>
                         {showCustomInput && (
                             <View style={styles.customRow}>
@@ -131,8 +138,16 @@ export default function Recommend({ visible, onClose, initialSelected, onSave, t
                         )}
                     </ScrollView>
                     <View style={styles.modalActions}>
-                        <TouchableOpacity style={[styles.modalButton, styles.modalReset]} onPress={() => { setSelectedFoods([]); }}>
-                            <Text style={styles.modalResetText}>초기화</Text>
+                        <TouchableOpacity
+                            style={[
+                                styles.modalButton,
+                                styles.modalReset,
+                                !hasAnySelection && styles.modalButtonDisabled,
+                            ]}
+                            onPress={() => { setSelectedFoods([]); }}
+                            disabled={!hasAnySelection}
+                        >
+                            <Text style={[styles.modalResetText, !hasAnySelection && styles.modalResetTextDisabled]}>초기화</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.modalButton, styles.modalCancel]} onPress={onClose}>
                             <Text style={styles.modalCancelText}>취소</Text>
@@ -142,7 +157,7 @@ export default function Recommend({ visible, onClose, initialSelected, onSave, t
                         </TouchableOpacity>
                     </View>
         </View>
-            </Pressable>
+            </View>
         </Modal>
     );
 }
@@ -199,6 +214,9 @@ const styles = StyleSheet.create({
         borderColor: '#93C5FD',
         borderWidth: 1,
     },
+    modalContentListElementDisabled: {
+        opacity: 0.5,
+    },
     itemLabel: {
         fontSize: 14,
         color: '#6B7280',
@@ -206,6 +224,9 @@ const styles = StyleSheet.create({
     optionLabel: {
         fontSize: 14,
         color: '#6B7280',
+    },
+    optionLabelDisabled: {
+        color: '#9CA3AF',
     },
     modalContentSelected: {
         display: 'flex',
@@ -252,6 +273,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
     },
+    modalButtonDisabled: {
+        opacity: 0.6,
+    },
     modalReset: {
         backgroundColor: '#FFFFFF',
         borderColor: '#FCA5A5',
@@ -268,6 +292,9 @@ const styles = StyleSheet.create({
         color: '#EF4444',
         fontFamily: 'Pretendard-Bold',
         fontSize: 14,
+    },
+    modalResetTextDisabled: {
+        color: '#F3C4C4',
     },
     modalCancelText: {
         color: '#6B7280',

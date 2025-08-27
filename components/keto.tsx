@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import RecipeModal from './modal/recipe';
 
 export default function Keto() {
     const macros = { carb: 5, protein: 15, fat: 80 };
+    const [isRecipeVisible, setIsRecipeVisible] = useState(false);
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
@@ -67,7 +69,7 @@ export default function Keto() {
                         <Text style={styles.mealTitle}>아보카도와 올리브오일 샐러드</Text>
                         <View style={styles.mealMetaRow}>
                             <Text style={styles.mealMeta}>326 칼로리</Text>
-                            <Text style={styles.mealLink}>자세히 보기</Text>
+                            <Text style={styles.mealLink} onPress={() => setIsRecipeVisible(true)}>자세히 보기</Text>
                         </View>
                     </View>
 
@@ -79,7 +81,7 @@ export default function Keto() {
                         <Text style={styles.mealTitle}>연어와 아보카도 롤</Text>
                         <View style={styles.mealMetaRow}>
                             <Text style={styles.mealMeta}>325 칼로리</Text>
-                            <Text style={styles.mealLink}>자세히 보기</Text>
+                            <Text style={styles.mealLink} onPress={() => setIsRecipeVisible(true)}>자세히 보기</Text>
                         </View>
                     </View>
 
@@ -91,7 +93,7 @@ export default function Keto() {
                         <Text style={styles.mealTitle}>고기 없는 아보카도 스테이크</Text>
                         <View style={styles.mealMetaRow}>
                             <Text style={styles.mealMeta}>296 칼로리</Text>
-                            <Text style={styles.mealLink}>자세히 보기</Text>
+                            <Text style={styles.mealLink} onPress={() => setIsRecipeVisible(true)}>자세히 보기</Text>
                         </View>
                     </View>
                 </View>
@@ -107,6 +109,7 @@ export default function Keto() {
 
                 <Text style={styles.helperText}>식단 유지가 어려우실 경우 강남 지역 내에 위치한 음식점에서 대안을 찾을 수 있습니다</Text>
             </View>
+            <RecipeModal visible={isRecipeVisible} onClose={() => setIsRecipeVisible(false)} />
         </View>
         </ScrollView>
     )
