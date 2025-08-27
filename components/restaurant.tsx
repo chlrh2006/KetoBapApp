@@ -15,7 +15,7 @@ export default function Restaurant() {
         id: `restaurant-${index}`,
         name: '남도예찬',
         menu: '한우안창살',
-        scoreLabel: `키토 ${index % 3 === 0 ? 92 : index % 3 === 1 ? 89 : 96}점`,
+        scoreLabel: '키토 96점',
         address: '서울 서초구 서초대로 411 (GT타워)',
         phone: '02-3478-1014',
     }));
@@ -45,26 +45,35 @@ export default function Restaurant() {
         </View>
     );
 
+    const ListHeader = () => (
+        <View style={styles.sectionWrap}>
+            <Text style={styles.title}>강남 키토 맛집</Text>
+            <Text style={styles.subtitle}>키토 다이어트 중에도 걱정 없이 즐길 수 있는 강남 지역의 키토 친화적인 음식점과 메뉴를 추천해드려요</Text>
+            <FlatList
+                data={[1,2,3,4,5,6,7,8,9,10]}
+                keyExtractor={(n) => `filter-${n}`}
+                renderItem={({item}) => (
+                    <View style={styles.chip}><Text style={styles.chipText}>{`필터 항목 ${item}`}</Text></View>
+                )}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.filtersRow}
+            />
+        </View>
+    );
+
     return (
         <View style={styles.screen}>
-            <View style={styles.sectionWrap}>
-                <Text style={styles.title}>강남 키토 맛집</Text>
-                <Text style={styles.subtitle}>키토 다이어트 중에도 걱정 없이 즐길 수 있는 강남 지역의 키토 친화적인 음식점과 메뉴를 추천해드려요</Text>
-
-            <View>
-                <Text>필터</Text>
-            </View>
-
-                <FlatList
-                    data={restaurants}
-                    keyExtractor={(item) => item.id}
-                    renderItem={renderRestaurantCard}
-                    numColumns={2}
-                    columnWrapperStyle={styles.columnWrapper}
-                    contentContainerStyle={styles.listContent}
-                    showsVerticalScrollIndicator={false}
-                />
-            </View>
+            <FlatList
+                data={restaurants}
+                keyExtractor={(item) => item.id}
+                renderItem={renderRestaurantCard}
+                numColumns={2}
+                columnWrapperStyle={styles.columnWrapper}
+                contentContainerStyle={styles.listContent}
+                ListHeaderComponent={ListHeader}
+                showsVerticalScrollIndicator={false}
+            />
         </View>
     )
 }
@@ -83,21 +92,21 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-Bold',
         color: '#111827',
         textAlign: 'center',
+        marginBottom: 8,
     },
     subtitle: {
         fontSize: 16,
         fontFamily: 'Pretendard-SemiBold',
         color: '#6B7280',
         textAlign: 'center',
-        marginTop: 6,
-        marginBottom: 16,
+        marginBottom: 26,
         lineHeight: 22,
     },
     filtersRow: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 8,
-        marginBottom: 16,
+        marginBottom: 26,
     },
     chip: {
         backgroundColor: '#F3F4F6',
@@ -127,6 +136,7 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     listContent: {
+        paddingTop: 16,
         paddingBottom: 20,
     },
     columnWrapper: {

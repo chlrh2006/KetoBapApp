@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function Keto() {
     const macros = { carb: 5, protein: 15, fat: 80 };
 
     return (
+        <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.screen}>
             <View style={styles.sectionWrap}>
                 <Text style={styles.title}>GPT 맞춤 키토 식단</Text>
@@ -107,6 +108,7 @@ export default function Keto() {
                 <Text style={styles.helperText}>식단 유지가 어려우실 경우 강남 지역 내에 위치한 음식점에서 대안을 찾을 수 있습니다</Text>
             </View>
         </View>
+        </ScrollView>
     )
 }
 
@@ -114,6 +116,10 @@ const styles = StyleSheet.create({
     screen: {
         width: '100%',
         paddingHorizontal: 20,
+    },
+    scrollContent: {
+        paddingBottom: 24,
+        paddingTop: 16,
     },
     sectionWrap: {
         width: '100%',
@@ -213,10 +219,9 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     legendRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
         marginTop: 10,
+        flexDirection: 'row',
+        gap: 6,
     },
     legendItem: {
         flexDirection: 'row',
@@ -227,7 +232,6 @@ const styles = StyleSheet.create({
         width: 10,
         height: 10,
         borderRadius: 10,
-        marginRight: 6,
     },
     legendText: {
         fontSize: 13,
