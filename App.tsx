@@ -1,6 +1,6 @@
 import React from "react";
-import { View, StyleSheet, Pressable } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { View, StyleSheet, Pressable, Animated, Easing } from "react-native";
+import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createBottomTabNavigator, BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
@@ -10,21 +10,56 @@ import Main from "./components/main";
 import Restaurant from "./components/restaurant";
 import Mypage from "./components/mypage";
 
-// 각 화면을 TopContainer 스타일로 감싸기
+// 포커스 시 슬라이드 인 애니메이션 래퍼
+function AnimatedScreen({ children }: { children: React.ReactNode }) {
+  const isFocused = useIsFocused();
+  const translateX = React.useRef(new Animated.Value(18)).current;
+  const opacity = React.useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    if (isFocused) {
+      Animated.parallel([
+        Animated.timing(translateX, {
+          toValue: 0,
+          duration: 280,
+          easing: Easing.out(Easing.cubic),
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 220,
+          easing: Easing.out(Easing.quad),
+          useNativeDriver: true,
+        }),
+      ]).start();
+    } else {
+      translateX.setValue(20);
+      opacity.setValue(0);
+    }
+  }, [isFocused, opacity, translateX]);
+
+  return (
+    <Animated.View style={[styles.topContainer, { transform: [{ translateX }], opacity }]}> 
+      {children}
+    </Animated.View>
+  );
+}
+
+// 각 화면을 애니메이션 래퍼로 감싸기
 function LikeScreen() {
-  return <View style={styles.topContainer}><Like /></View>;
+  return <AnimatedScreen><Like /></AnimatedScreen>;
 }
 function KetoScreen() {
-  return <View style={styles.topContainer}><Keto /></View>;
+  return <AnimatedScreen><Keto /></AnimatedScreen>;
 }
 function HomeScreen() {
-  return <View style={styles.topContainer}><Main /></View>;
+  return <AnimatedScreen><Main /></AnimatedScreen>;
 }
 function RestaurantScreen() {
-  return <View style={styles.topContainer}><Restaurant /></View>;
+  return <AnimatedScreen><Restaurant /></AnimatedScreen>;
 }
 function MypageScreen() {
-  return <View style={styles.topContainer}><Mypage /></View>;
+  return <AnimatedScreen><Mypage /></AnimatedScreen>;
 }
 
 const Tab = createBottomTabNavigator();

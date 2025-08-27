@@ -45,7 +45,7 @@ export default function Like() {
             <View style={styles.sectionWrap}>
                 <View style={styles.element}>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                        <FontAwesome5 name="heart" size={30} color="#A4E6A4" solid />
+                        <FontAwesome5 name="heart" size={25} color="#A4E6A4" solid />
                         <Text style={styles.elementtitle}>선호하는 음식</Text>
                     </View>
                     {/* 이 버튼을 누르면 모달 출력 */}
@@ -68,7 +68,7 @@ export default function Like() {
                 </View>
                 <View style={styles.element}>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                        <FontAwesome5 name="times" size={35} color="#E07285" />
+                        <FontAwesome5 name="times" size={30} color="#E07285" />
                         <Text style={styles.elementtitle}>비선호하는 음식</Text>
                     </View>
                     <TouchableOpacity style={styles.elementModalButton} onPress={() => { setActiveCategory('disliked'); setIsModalVisible(true); }}>
@@ -90,7 +90,7 @@ export default function Like() {
                 </View>
                 <View style={styles.element}>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                        <FontAwesome5 name="exclamation-triangle" size={25} color="#FFDC85" />
+                        <FontAwesome5 name="exclamation-triangle" size={20} color="#FFDC85" />
                         <Text style={styles.elementtitle}>알레르기 정보</Text>
                     </View>
                     <TouchableOpacity style={styles.elementModalButton} onPress={() => { setActiveCategory('allergy'); setIsModalVisible(true); }}>

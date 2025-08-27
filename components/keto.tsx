@@ -17,7 +17,7 @@ export default function Keto() {
                 <View style={styles.card}>
                     <View style={styles.cardHeader}>
                         <View style={styles.headerBadge}>
-                            <FontAwesome5 name="chart-line" size={30} color="#2563EB" />
+                            <FontAwesome5 name="chart-line" size={25} color="#2563EB" />
                         </View>
                         <Text style={styles.cardTitle}>일일 영양 분석</Text>
                     </View>
